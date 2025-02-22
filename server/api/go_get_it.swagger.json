@@ -1,0 +1,487 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "api/go_get_it.proto",
+    "version": "version not set"
+  },
+  "tags": [
+    {
+      "name": "GoGetItService"
+    }
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/go_get_it.GoGetItService/CreateAccount": {
+      "post": {
+        "operationId": "GoGetItService_CreateAccount",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/go_get_itCreateAccountResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "description": "Empty request/response messages for each API endpoint.",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/go_get_itCreateAccountRequest"
+            }
+          }
+        ],
+        "tags": [
+          "GoGetItService"
+        ]
+      }
+    },
+    "/go_get_it.GoGetItService/CreateDownloadTask": {
+      "post": {
+        "operationId": "GoGetItService_CreateDownloadTask",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/go_get_itCreateDownloadTaskResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/go_get_itCreateDownloadTaskRequest"
+            }
+          }
+        ],
+        "tags": [
+          "GoGetItService"
+        ]
+      }
+    },
+    "/go_get_it.GoGetItService/CreateSession": {
+      "post": {
+        "operationId": "GoGetItService_CreateSession",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/go_get_itCreateSessionResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/go_get_itCreateSessionRequest"
+            }
+          }
+        ],
+        "tags": [
+          "GoGetItService"
+        ]
+      }
+    },
+    "/go_get_it.GoGetItService/DeleteDownloadTask": {
+      "post": {
+        "operationId": "GoGetItService_DeleteDownloadTask",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/go_get_itDeleteDownloadTaskResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/go_get_itDeleteDownloadTaskRequest"
+            }
+          }
+        ],
+        "tags": [
+          "GoGetItService"
+        ]
+      }
+    },
+    "/go_get_it.GoGetItService/GetDownloadTaskFile": {
+      "post": {
+        "operationId": "GoGetItService_GetDownloadTaskFile",
+        "responses": {
+          "200": {
+            "description": "A successful response.(streaming responses)",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "result": {
+                  "$ref": "#/definitions/go_get_itGetDownloadTaskFileResponse"
+                },
+                "error": {
+                  "$ref": "#/definitions/rpcStatus"
+                }
+              },
+              "title": "Stream result of go_get_itGetDownloadTaskFileResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/go_get_itGetDownloadTaskFileRequest"
+            }
+          }
+        ],
+        "tags": [
+          "GoGetItService"
+        ]
+      }
+    },
+    "/go_get_it.GoGetItService/GetDownloadTaskList": {
+      "post": {
+        "operationId": "GoGetItService_GetDownloadTaskList",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/go_get_itGetDownloadTaskListResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/go_get_itGetDownloadTaskListRequest"
+            }
+          }
+        ],
+        "tags": [
+          "GoGetItService"
+        ]
+      }
+    },
+    "/go_get_it.GoGetItService/UpdateDownloadTask": {
+      "post": {
+        "operationId": "GoGetItService_UpdateDownloadTask",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/go_get_itUpdateDownloadTaskResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/go_get_itUpdateDownloadTaskRequest"
+            }
+          }
+        ],
+        "tags": [
+          "GoGetItService"
+        ]
+      }
+    }
+  },
+  "definitions": {
+    "go_get_itCreateAccountRequest": {
+      "type": "object",
+      "properties": {
+        "username": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        }
+      },
+      "description": "Empty request/response messages for each API endpoint."
+    },
+    "go_get_itCreateAccountResponse": {
+      "type": "object",
+      "properties": {
+        "userId": {
+          "type": "string",
+          "format": "uint64"
+        }
+      }
+    },
+    "go_get_itCreateDownloadTaskRequest": {
+      "type": "object",
+      "properties": {
+        "token": {
+          "type": "string"
+        },
+        "downloadType": {
+          "$ref": "#/definitions/go_get_itDownloadType"
+        },
+        "url": {
+          "type": "string"
+        }
+      }
+    },
+    "go_get_itCreateDownloadTaskResponse": {
+      "type": "object",
+      "properties": {
+        "downloadTask": {
+          "$ref": "#/definitions/go_get_itDownloadTask"
+        }
+      }
+    },
+    "go_get_itCreateSessionRequest": {
+      "type": "object",
+      "properties": {
+        "username": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        }
+      }
+    },
+    "go_get_itCreateSessionResponse": {
+      "type": "object",
+      "properties": {
+        "user": {
+          "$ref": "#/definitions/go_get_itUser"
+        },
+        "token": {
+          "type": "string"
+        }
+      }
+    },
+    "go_get_itDeleteDownloadTaskRequest": {
+      "type": "object",
+      "properties": {
+        "token": {
+          "type": "string"
+        },
+        "downloadTask": {
+          "$ref": "#/definitions/go_get_itDownloadTask"
+        }
+      }
+    },
+    "go_get_itDeleteDownloadTaskResponse": {
+      "type": "object"
+    },
+    "go_get_itDownloadStatus": {
+      "type": "string",
+      "enum": [
+        "UndefinedStatus",
+        "Pending",
+        "Downloading",
+        "Failed",
+        "Success"
+      ],
+      "default": "UndefinedStatus"
+    },
+    "go_get_itDownloadTask": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "uint64"
+        },
+        "ofUser": {
+          "$ref": "#/definitions/go_get_itUser"
+        },
+        "downloadType": {
+          "$ref": "#/definitions/go_get_itDownloadType"
+        },
+        "url": {
+          "type": "string"
+        },
+        "downloadStatus": {
+          "$ref": "#/definitions/go_get_itDownloadStatus"
+        }
+      }
+    },
+    "go_get_itDownloadType": {
+      "type": "string",
+      "enum": [
+        "Undefined",
+        "HTTP"
+      ],
+      "default": "Undefined"
+    },
+    "go_get_itGetDownloadTaskFileRequest": {
+      "type": "object",
+      "properties": {
+        "token": {
+          "type": "string"
+        }
+      }
+    },
+    "go_get_itGetDownloadTaskFileResponse": {
+      "type": "object",
+      "properties": {
+        "data": {
+          "type": "string",
+          "format": "byte"
+        }
+      }
+    },
+    "go_get_itGetDownloadTaskListRequest": {
+      "type": "object",
+      "properties": {
+        "token": {
+          "type": "string"
+        },
+        "offset": {
+          "type": "string",
+          "format": "uint64"
+        },
+        "limit": {
+          "type": "string",
+          "format": "uint64"
+        }
+      }
+    },
+    "go_get_itGetDownloadTaskListResponse": {
+      "type": "object",
+      "properties": {
+        "downloadTaskList": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/go_get_itDownloadTask"
+          }
+        },
+        "totalDownloadTaskCount": {
+          "type": "string",
+          "format": "uint64"
+        }
+      }
+    },
+    "go_get_itUpdateDownloadTaskRequest": {
+      "type": "object",
+      "properties": {
+        "token": {
+          "type": "string"
+        },
+        "downloadTaskId": {
+          "type": "string",
+          "format": "uint64"
+        },
+        "url": {
+          "type": "string"
+        }
+      }
+    },
+    "go_get_itUpdateDownloadTaskResponse": {
+      "type": "object",
+      "properties": {
+        "downloadTask": {
+          "$ref": "#/definitions/go_get_itDownloadTask"
+        }
+      }
+    },
+    "go_get_itUser": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "uint64"
+        },
+        "username": {
+          "type": "string"
+        }
+      }
+    },
+    "protobufAny": {
+      "type": "object",
+      "properties": {
+        "@type": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": {}
+    },
+    "rpcStatus": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "message": {
+          "type": "string"
+        },
+        "details": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/protobufAny"
+          }
+        }
+      }
+    }
+  }
+}
