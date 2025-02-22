@@ -7,17 +7,18 @@ import (
 )
 
 type AccountPassword struct {
-	OfUserId uint64 `sql:"of_user_id"`
-	Hash     string `sql:"hash"`
+	OfAccountId uint64 `sql:"of_account_id"`
+	Hash        string `sql:"hash"`
 }
 
 type AccountPasswordDataAccessor interface {
-	CreateUserPassword(ctx context.Context, accountPassword AccountPassword) error
-	UpdateUserPassword(ctx context.Context, accountPassword AccountPassword) error
+	CreateAccountPassword(ctx context.Context, accountPassword AccountPassword) error
+	UpdateAccountPassword(ctx context.Context, accountPassword AccountPassword) error
+	WithDatabase(database Database) AccountPasswordDataAccessor
 }
 
 type accountPasswordDataAccessor struct {
-	database *goqu.Database
+	database Database
 }
 
 func NewAccountPasswordDataAccessor(
@@ -28,12 +29,19 @@ func NewAccountPasswordDataAccessor(
 	}
 }
 
-// CreateUserPassword implements AccountPasswordDataAccessor.
-func (a *accountPasswordDataAccessor) CreateUserPassword(ctx context.Context, accountPassword AccountPassword) error {
+// CreateAccountPassword implements AccountPasswordDataAccessor.
+func (a *accountPasswordDataAccessor) CreateAccountPassword(ctx context.Context, accountPassword AccountPassword) error {
 	panic("unimplemented")
 }
 
-// UpdateUserPassword implements AccountPasswordDataAccessor.
-func (a *accountPasswordDataAccessor) UpdateUserPassword(ctx context.Context, accountPassword AccountPassword) error {
+// UpdateAccountPassword implements AccountPasswordDataAccessor.
+func (a *accountPasswordDataAccessor) UpdateAccountPassword(ctx context.Context, accountPassword AccountPassword) error {
 	panic("unimplemented")
+}
+
+// WithDatabase implements AccountDataAccessor.
+func (a *accountPasswordDataAccessor) WithDatabase(database Database) AccountPasswordDataAccessor {
+	return &accountPasswordDataAccessor{
+		database: database,
+	}
 }

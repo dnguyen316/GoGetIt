@@ -9,8 +9,12 @@
       "name": "GoGetItService"
     }
   ],
-  "consumes": ["application/json"],
-  "produces": ["application/json"],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
   "paths": {
     "/go_get_it.GoGetItService/CreateAccount": {
       "post": {
@@ -40,7 +44,9 @@
             }
           }
         ],
-        "tags": ["GoGetItService"]
+        "tags": [
+          "GoGetItService"
+        ]
       }
     },
     "/go_get_it.GoGetItService/CreateDownloadTask": {
@@ -70,7 +76,9 @@
             }
           }
         ],
-        "tags": ["GoGetItService"]
+        "tags": [
+          "GoGetItService"
+        ]
       }
     },
     "/go_get_it.GoGetItService/CreateSession": {
@@ -100,7 +108,9 @@
             }
           }
         ],
-        "tags": ["GoGetItService"]
+        "tags": [
+          "GoGetItService"
+        ]
       }
     },
     "/go_get_it.GoGetItService/DeleteDownloadTask": {
@@ -130,7 +140,9 @@
             }
           }
         ],
-        "tags": ["GoGetItService"]
+        "tags": [
+          "GoGetItService"
+        ]
       }
     },
     "/go_get_it.GoGetItService/GetDownloadTaskFile": {
@@ -169,7 +181,9 @@
             }
           }
         ],
-        "tags": ["GoGetItService"]
+        "tags": [
+          "GoGetItService"
+        ]
       }
     },
     "/go_get_it.GoGetItService/GetDownloadTaskList": {
@@ -199,7 +213,9 @@
             }
           }
         ],
-        "tags": ["GoGetItService"]
+        "tags": [
+          "GoGetItService"
+        ]
       }
     },
     "/go_get_it.GoGetItService/UpdateDownloadTask": {
@@ -229,15 +245,29 @@
             }
           }
         ],
-        "tags": ["GoGetItService"]
+        "tags": [
+          "GoGetItService"
+        ]
       }
     }
   },
   "definitions": {
+    "go_get_itAccount": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "uint64"
+        },
+        "accountName": {
+          "type": "string"
+        }
+      }
+    },
     "go_get_itCreateAccountRequest": {
       "type": "object",
       "properties": {
-        "accountname": {
+        "accountName": {
           "type": "string"
         },
         "password": {
@@ -280,7 +310,7 @@
     "go_get_itCreateSessionRequest": {
       "type": "object",
       "properties": {
-        "accountname": {
+        "accountName": {
           "type": "string"
         },
         "password": {
@@ -347,7 +377,10 @@
     },
     "go_get_itDownloadType": {
       "type": "string",
-      "enum": ["Undefined", "HTTP"],
+      "enum": [
+        "Undefined",
+        "HTTP"
+      ],
       "default": "Undefined"
     },
     "go_get_itGetDownloadTaskFileRequest": {
@@ -419,18 +452,6 @@
       "properties": {
         "downloadTask": {
           "$ref": "#/definitions/go_get_itDownloadTask"
-        }
-      }
-    },
-    "go_get_itAccount": {
-      "type": "object",
-      "properties": {
-        "id": {
-          "type": "string",
-          "format": "uint64"
-        },
-        "accountname": {
-          "type": "string"
         }
       }
     },

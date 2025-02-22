@@ -8,24 +8,33 @@ import (
 )
 
 type Account struct {
-	UserId   uint64 `sql:"user_id"`
-	Username string `sql:"username"`
+	AccountId   uint64 `sql:"account_id"`
+	AccountName string `sql:"accountName"`
 }
 
 type AccountDataAccessor interface {
 	CreateAccount(ctx context.Context, account Account) (uint64, error)
 	GetAccountByID(ctx context.Context, id uint64) (Account, error)
-	GetAccountByUsername(ctx context.Context, username string) (Account, error)
+	GetAccountByAccountName(ctx context.Context, accountName string) (Account, error)
+	WithDatabase(database Database) AccountDataAccessor
 }
 
 type accountDataAccessor struct {
-	database *goqu.Database
+	database Database
+}
+
+func NewAccountDatabaseAccessor(
+	database Database,
+) AccountDataAccessor {
+	return &accountDataAccessor{
+		database: database,
+	}
 }
 
 func (a accountDataAccessor) CreateAccount(ctx context.Context, account Account) (uint64, error) {
 	// TODO: Implement create account logic
 	result, err := a.database.Insert("accounts").Rows(goqu.Record{
-		"username": account.Username,
+		"accountName": account.AccountName,
 	}).Executor().ExecContext(ctx)
 	if err != nil {
 		log.Printf("failed to create account, err=%+v", err)
@@ -47,14 +56,13 @@ func (a *accountDataAccessor) GetAccountByID(ctx context.Context, id uint64) (Ac
 	return Account{}, nil
 }
 
-func (a *accountDataAccessor) GetAccountByUsername(ctx context.Context, username string) (Account, error) {
-	// TODO: Implement get account by username logic
+func (a *accountDataAccessor) GetAccountByAccountName(ctx context.Context, accountName string) (Account, error) {
+	// TODO: Implement get account by accountName logic
 	return Account{}, nil
 }
 
-func NewAccountDatabaseAccessor(
-	database *goqu.Database,
-) AccountDataAccessor {
+// WithDatabase implements AccountDataAccessor.
+func (a *accountDataAccessor) WithDatabase(database Database) AccountDataAccessor {
 	return &accountDataAccessor{
 		database: database,
 	}

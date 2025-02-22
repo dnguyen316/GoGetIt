@@ -30,7 +30,7 @@ func (h *Handler) CreateDownloadTask(ctx context.Context, req *go_get_it.CreateD
 	return &go_get_it.CreateDownloadTaskResponse{}, nil
 }
 
-// GetDownloadTaskList retrieves the list of download tasks for the user.
+// GetDownloadTaskList retrieves the list of download tasks for the accountunt.
 func (h *Handler) GetDownloadTaskList(ctx context.Context, req *go_get_it.GetDownloadTaskListRequest) (*go_get_it.GetDownloadTaskListResponse, error) {
 	// TODO: Implement business logic
 	return &go_get_it.GetDownloadTaskListResponse{}, nil

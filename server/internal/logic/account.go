@@ -6,48 +6,52 @@ import (
 	"errors"
 
 	"github.com/dnguyen316/GoGetIt/server/internal/dataaccess/database"
+	"github.com/doug-martin/goqu/v9"
 )
 
 type CreateAccountParams struct {
-	Username string
-	Password string
+	AccountName string
+	Password    string
 }
 
 type CreateSessionParams struct {
-	Username string
-	Password string
+	AccountName string
+	Password    string
 }
 
-type User struct {
-	ID       uint64
-	Username string
+type CreateAccountOutput struct {
+	ID          uint64
+	AccountName string
 }
 
 type Account interface {
-	CreateAccount(ctx context.Context, params CreateAccountParams) (User, error)
-	CreateSession(ctx context.Context, params CreateSessionParams) (user User, token string, err error)
+	CreateAccount(ctx context.Context, params CreateAccountParams) (CreateAccountOutput, error)
+	CreateSession(ctx context.Context, params CreateSessionParams) (account CreateAccountOutput, token string, err error)
 }
 
 type account struct {
+	goquDatabase                *goqu.Database
 	accountDataAccessor         database.AccountDataAccessor
 	accountPasswordDataAccessor database.AccountPasswordDataAccessor
 	hashLogic                   Hash
 }
 
 func NewAccount(
+	goquDatabase *goqu.Database,
 	accountDataAccessor database.AccountDataAccessor,
 	accountPasswordDataAccessor database.AccountPasswordDataAccessor,
 	hashLogic Hash,
 ) Account {
 	return &account{
+		goquDatabase:                goquDatabase,
 		accountDataAccessor:         accountDataAccessor,
 		accountPasswordDataAccessor: accountPasswordDataAccessor,
 		hashLogic:                   hashLogic,
 	}
 }
 
-func (a account) isAccountUsernameTaken(ctx context.Context, username string) (bool, error) {
-	if _, err := a.accountDataAccessor.GetAccountByUsername(ctx, username); err != nil {
+func (a account) isAccountAccountNameTaken(ctx context.Context, accountName string) (bool, error) {
+	if _, err := a.accountDataAccessor.GetAccountByAccountName(ctx, accountName); err != nil {
 		if errors.Is(err, sql.ErrNoRows) {
 			return false, nil
 		}
@@ -56,43 +60,54 @@ func (a account) isAccountUsernameTaken(ctx context.Context, username string) (b
 	return true, nil
 }
 
-func (a account) CreateAccount(ctx context.Context, params CreateAccountParams) (User, error) {
-	usernameTaken, err := a.isAccountUsernameTaken(ctx, params.Username)
+func (a account) CreateAccount(ctx context.Context, params CreateAccountParams) (CreateAccountOutput, error) {
+	var accountId uint64
 
-	if err != nil {
-		//Check user doesn't exist in db
-		return User{}, err
-	}
+	txErr := a.goquDatabase.WithTx(func(td *goqu.TxDatabase) error {
+		accountNameTaken, err := a.isAccountAccountNameTaken(ctx, params.AccountName)
 
-	if usernameTaken {
-		return User{}, errors.New("username is already taken")
-	}
+		if err != nil {
+			//Check account doesn't exist in db
+			return err
+		}
 
-	accountId, err := a.accountDataAccessor.CreateAccount(ctx, database.Account{
-		Username: params.Username,
+		if accountNameTaken {
+			return errors.New("accountName is already taken")
+		}
+
+		accountId, err = a.accountDataAccessor.WithDatabase(td).CreateAccount(ctx, database.Account{
+			AccountName: params.AccountName,
+		})
+		if err != nil {
+			return err
+		}
+
+		hashedPassword, err := a.hashLogic.Hash(ctx, params.Password)
+		if err != nil {
+			return nil
+		}
+
+		if err := a.accountPasswordDataAccessor.CreateAccountPassword(ctx, database.AccountPassword{
+			OfAccountId: accountId,
+			Hash:        hashedPassword,
+		}); err != nil {
+			return err
+		}
+
+		return nil
 	})
-	if err != nil {
-		return User{}, err
+
+	if txErr != nil {
+		return CreateAccountOutput{}, txErr
 	}
 
-	hashedPassword, err := a.hashLogic.Hash(ctx, params.Password)
-	if err != nil {
-		return User{}, nil
-	}
-
-	if err := a.accountPasswordDataAccessor.CreateUserPassword(ctx, database.AccountPassword{
-		OfUserId: accountId,
-		Hash:     hashedPassword,
-	}); err != nil {
-		return User{}, err
-	}
-
-	return User{
-		ID:       accountId,
-		Username: params.Username,
+	return CreateAccountOutput{
+		ID:          accountId,
+		AccountName: params.AccountName,
 	}, nil
+
 }
 
-func (a account) CreateSession(ctx context.Context, params CreateSessionParams) (user User, token string, err error) {
+func (a account) CreateSession(ctx context.Context, params CreateSessionParams) (account CreateAccountOutput, token string, err error) {
 	return
 }
