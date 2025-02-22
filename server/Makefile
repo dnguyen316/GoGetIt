@@ -8,3 +8,5 @@ generate:
   --openapiv2_opt generate_unbound_methods=true \
   --validate_out="internal/generated" \
   ./api/go_get_it.proto
+
+  wire internal/wiring/wire.go

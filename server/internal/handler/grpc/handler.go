@@ -4,18 +4,35 @@ import (
 	"context"
 
 	"github.com/dnguyen316/GoGetIt/server/internal/generated/grpc/go_get_it"
+	"github.com/dnguyen316/GoGetIt/server/internal/logic"
 )
 
 type Handler struct {
 	go_get_it.GoGetItServiceServer
+	accountLogic logic.Account
 }
 
-func NewHandler() go_get_it.GoGetItServiceServer {
-	return &Handler{}
+func NewHandler(
+	accountLogic logic.Account,
+) go_get_it.GoGetItServiceServer {
+	return &Handler{
+		accountLogic: accountLogic,
+	}
 }
 
-func (a *Handler) CreateAccount(context.Context, *go_get_it.CreateAccountRequest) (*go_get_it.CreateAccountResponse, error) {
-	panic("unimplemented")
+func (a *Handler) CreateAccount(ctx context.Context, request *go_get_it.CreateAccountRequest) (*go_get_it.CreateAccountResponse, error) {
+	output, err := a.accountLogic.CreateAccount(ctx, logic.CreateAccountParams{
+		AccountName: request.GetAccountName(),
+		Password:    request.GetPassword(),
+	})
+
+	if err != nil {
+		return nil, err
+	}
+
+	return &go_get_it.CreateAccountResponse{
+		AccountId: output.ID,
+	}, nil
 }
 
 // CreateSession handles creation of a new session.

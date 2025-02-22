@@ -23,7 +23,7 @@ type accountDataAccessor struct {
 	database Database
 }
 
-func NewAccountDatabaseAccessor(
+func NewAccountAccessor(
 	database Database,
 ) AccountDataAccessor {
 	return &accountDataAccessor{

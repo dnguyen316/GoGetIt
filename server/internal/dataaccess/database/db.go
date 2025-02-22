@@ -9,6 +9,9 @@ import (
 	"github.com/dnguyen316/GoGetIt/server/internal/config"
 
 	"github.com/doug-martin/goqu/v9"
+
+	_ "github.com/doug-martin/goqu/v9/dialect/mysql" // Import MySQL goqu dialect
+	_ "github.com/go-sql-driver/mysql"               // Import MySQL driver
 )
 
 type Database interface {
@@ -63,6 +66,16 @@ func InitializeDB(databaseConfig config.Database) (db *sql.DB, cleanup func(), e
 	return db, cleanup, nil
 }
 
-func InitializeSquirrel(db *sql.DB) *goqu.Database {
+func InitializeGoquDB(db *sql.DB) *goqu.Database {
 	return goqu.New("mysql", db)
+}
+
+func ProvideDatabase(config config.Database) (*goqu.Database, func(), error) {
+	sqlDB, cleanup, err := InitializeDB(config)
+	if err != nil {
+		return nil, nil, fmt.Errorf("failed to initialize SQL DB: %w", err)
+	}
+
+	gdb := InitializeGoquDB(sqlDB)
+	return gdb, cleanup, nil
 }
