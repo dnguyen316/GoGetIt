@@ -70,7 +70,7 @@ func InitializeGoquDB(db *sql.DB) *goqu.Database {
 	return goqu.New("mysql", db)
 }
 
-func ProvideDatabase(config config.Database) (*goqu.Database, func(), error) {
+func ProvideDatabase(config config.Database) (Database, func(), error) {
 	sqlDB, cleanup, err := InitializeDB(config)
 	if err != nil {
 		return nil, nil, fmt.Errorf("failed to initialize SQL DB: %w", err)
